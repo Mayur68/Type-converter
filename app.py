@@ -71,8 +71,8 @@ reverse_character_colors = {
     (0, 0, 255, 127): 'i', 
     (255, 0, 255, 127): 'j', 
     (0, 255, 255, 127): 'k', 
-                            (255, 255, 0, 127): 'l', 
-                            (127, 0, 127, 127): 'm', 
+    (255, 255, 0, 127): 'l', 
+    (127, 0, 127, 127): 'm', 
                             (127, 127, 0, 127): 'n', 
                             (0, 127, 127, 127): 'o', 
                             (127, 0, 0, 127): 'p', 
@@ -126,23 +126,16 @@ def generate_character_video(filename, video_name='output_video.mp4', fps=120):
                 image = Image.new("RGBA", (50, 50), color_code)
                 images.append(np.array(image))
 
-            # Get dimensions from the first image
             height, width, _ = images[0].shape
+            height, width = width, height
 
-            # Adjust dimensions to match the video frame
-            height, width = width, height  # Swap height and width for video
-
-            # Initialize video writer
             fourcc = cv2.VideoWriter_fourcc(*'mp4v')
             video_writer = cv2.VideoWriter(video_name, fourcc, fps, (width, height))
 
-            # Write images to video
             for img in images:
-                # Convert image to BGR format (OpenCV uses BGR by default)
                 bgr_img = cv2.cvtColor(img, cv2.COLOR_RGBA2BGR)
                 video_writer.write(bgr_img)
 
-            # Release the VideoWriter
             video_writer.release()
 
     except FileNotFoundError:
